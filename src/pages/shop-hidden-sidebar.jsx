@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import SEO from "@/components/seo";
 import Wrapper from "@/layout/wrapper";
 import HeaderTwo from "@/layout/headers/header-2";
@@ -16,7 +16,7 @@ const ShopHiddenSidebarPage = () => {
   const [currPage, setCurrPage] = useState(1);
   const [priceValue, setPriceValue] = useState([0, 0]);
 
-  // Load the maximum price once the products have been loaded
+  // Tải giá tối đa khi sản phẩm đã được tải
   useEffect(() => {
     if (!isLoading && !isError && products?.data?.length > 0) {
       const maxPrice = products.data.reduce((max, product) => {
@@ -26,16 +26,18 @@ const ShopHiddenSidebarPage = () => {
     }
   }, [isLoading, isError, products]);
 
-  // selectHandleFilter
+  // Xử lý chọn bộ lọc
   const selectHandleFilter = (e) => {
     setSelectValue(e.value);
   };
-  // handleChanges
+
+  // Xử lý thay đổi
   const handleChanges = (val) => {
-    setCurrPage(1)
+    setCurrPage(1);
     setPriceValue(val);
   };
-  // other props
+
+  // Các props khác
   const otherProps = {
     priceFilterValues: {
       priceValue,
@@ -45,38 +47,40 @@ const ShopHiddenSidebarPage = () => {
     currPage,
     setCurrPage,
   };
-  // decide what to render
+
+  // Quyết định nội dung hiển thị
   let content = null;
 
   if (isLoading) {
-    content = <ShopHiddenLoader loading={isLoading}  />;
+    content = <ShopHiddenLoader loading={isLoading} />;
   }
   if (!isLoading && isError) {
-    content = <ErrorMsg msg="There was an error" />;
+    content = <ErrorMsg msg="Có lỗi xảy ra" />;
   }
   if (!isLoading && !isError && products?.data?.length === 0) {
-    content = <ErrorMsg msg="No Products found!" />;
+    content = <ErrorMsg msg="Không tìm thấy sản phẩm!" />;
   }
   if (!isLoading && !isError && products?.data?.length > 0) {
-    // products
+    // sản phẩm
     let product_items = products.data;
-    // select short filtering
+
+    // Lọc ngắn
     if (selectValue) {
-      if (selectValue === "Default Sorting") {
+      if (selectValue === "Sắp xếp mặc định") {
         product_items = products.data;
-      } else if (selectValue === "Low to High") {
+      } else if (selectValue === "Thấp đến cao") {
         product_items = products.data
           .slice()
           .sort((a, b) => Number(a.price) - Number(b.price));
-      } else if (selectValue === "High to Low") {
+      } else if (selectValue === "Cao đến thấp") {
         product_items = products.data
           .slice()
           .sort((a, b) => Number(b.price) - Number(a.price));
-      } else if (selectValue === "New Added") {
+      } else if (selectValue === "Mới nhất") {
         product_items = products.data
           .slice()
           .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-      } else if (selectValue === "On Sale") {
+      } else if (selectValue === "Đang giảm giá") {
         product_items = products.data.filter((p) => p.discount > 0);
       } else {
         product_items = products.data;
@@ -90,7 +94,6 @@ const ShopHiddenSidebarPage = () => {
           products={product_items}
           otherProps={otherProps}
         />
-
         <ShopFilterOffCanvas
           all_products={products.data}
           otherProps={otherProps}
@@ -98,11 +101,12 @@ const ShopHiddenSidebarPage = () => {
       </>
     );
   }
+
   return (
     <Wrapper>
-      <SEO pageTitle="Shop" />
+      <SEO pageTitle="Cửa Hàng" />
       <HeaderTwo style_2={true} />
-      <ShopBreadcrumb title="Shop Hidden Sidebar" subtitle="Shop Hidden Sidebar" />
+      <ShopBreadcrumb title="Cửa Hàng Với Thanh Bên Ẩn" subtitle="Cửa Hàng Với Thanh Bên Ẩn" />
       {content}
       <Footer primary_style={true} />
     </Wrapper>

@@ -14,6 +14,10 @@ const ShopListItem = ({ product }) => {
   const { _id, img, category, title, reviews, price, discount, tags, description } = product || {};
   const dispatch = useDispatch()
   const [ratingVal, setRatingVal] = useState(0);
+
+  // Xử lý URL hình ảnh
+  const correctImageUrl = img.replace('https://ibb.co', 'https://i.ibb.co');
+
   useEffect(() => {
     if (reviews && reviews.length > 0) {
       const rating =
@@ -43,7 +47,7 @@ const ShopListItem = ({ product }) => {
     <div className="tp-product-list-item d-md-flex">
       <div className="tp-product-list-thumb p-relative fix">
         <Link href={`/product-details/${_id}`}>
-          <Image src={img} alt="product img" width={350} height={310} />
+          <Image src={correctImageUrl} alt="product img" width={350} height={310} />
         </Link>
 
         {/* <!-- product action --> */}
@@ -96,13 +100,13 @@ const ShopListItem = ({ product }) => {
           <div className="tp-product-price-wrapper-2">
             {discount > 0 ? (
               <>
-                <span className="tp-product-price-2 new-price">${price}</span>
+                <span className="tp-product-price-2 new-price">VND{price}</span>
                 <span className="tp-product-price-2 old-price">
-                  {" "} ${(Number(price) - (Number(price) * Number(discount)) / 100).toFixed(2)}
+                  {" "} VND{(Number(price) - (Number(price) * Number(discount)) / 100).toFixed(2)}
                 </span>
               </>
             ) : (
-              <span className="tp-product-price-2 new-price">${price}</span>
+              <span className="tp-product-price-2 new-price">VND{price}</span>
             )}
           </div>
           <p>

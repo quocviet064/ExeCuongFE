@@ -7,16 +7,16 @@ const OfferTimer = ({ expiryTimestamp }) => {
     <div className="tp-coupon-countdown-inner">
       <ul>
         <li>
-          <span>{days}</span> Day
+          <span>{days}</span> Ngày
         </li>
         <li>
-          <span>{hours}</span> Hrs
+          <span>{hours}</span> Giờ
         </li>
         <li>
-          <span>{minutes}</span> Min
+          <span>{minutes}</span> Phút
         </li>
         <li>
-          <span>{seconds}</span> Sec
+          <span>{seconds}</span> Giây
         </li>
       </ul>
     </div>

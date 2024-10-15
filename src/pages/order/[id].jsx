@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import React, { useEffect, useRef } from "react";
 import Image from "next/image";
 import dayjs from "dayjs";
+import localizedFormat from "dayjs/plugin/localizedFormat"; // Import plugin để định dạng
 import ReactToPrint from "react-to-print";
 // internal
 import SEO from "@/components/seo";
@@ -12,7 +13,10 @@ import logo from "@assets/img/logo/logo.svg";
 import ErrorMsg from "@/components/common/error-msg";
 import { useGetUserOrderByIdQuery } from "@/redux/features/order/orderApi";
 import PrdDetailsLoader from "@/components/loader/prd-details-loader";
+import 'dayjs/locale/vi'; // Import locale tiếng Việt
 
+// Cấu hình locale
+dayjs.locale('vi'); // Thiết lập locale là tiếng Việt
 
 const SingleOrder = ({ params }) => {
   const orderId = params.id;
@@ -20,13 +24,13 @@ const SingleOrder = ({ params }) => {
   const { data: order, isError, isLoading } = useGetUserOrderByIdQuery(orderId);
   let content = null;
   if (isLoading) {
-    content = <PrdDetailsLoader loading={isLoading}/>
+    content = <PrdDetailsLoader loading={isLoading} />
   }
   if (isError) {
-    content = <ErrorMsg msg="There was an error" />;
+    content = <ErrorMsg msg="Có lỗi xảy ra" />;
   }
   if (!isLoading && !isError) {
-    const { name, country, city, contact, invoice, createdAt, cart, shippingCost, discount, totalAmount,paymentMethod} = order.order;
+    const { name, country, city, contact, invoice, createdAt, cart, shippingCost, discount, totalAmount, paymentMethod } = order.order;
     content = (
       <>
         <section className="invoice__area pt-120 pb-120">
@@ -35,7 +39,7 @@ const SingleOrder = ({ params }) => {
               <div className="row">
                 <div className="col-xl-12">
                   <div className="invoice_msg mb-40">
-                    <p className="text-black alert alert-success">Thank you <strong>{name}</strong> Your order have been received ! </p>
+                    <p className="text-black alert alert-success">Cảm ơn <strong>{name}</strong>! Đơn hàng của bạn đã được nhận!</p>
                   </div>
                 </div>
               </div>
@@ -54,7 +58,7 @@ const SingleOrder = ({ params }) => {
                         </div>
                         <div className="col-md-8 col-sm-6">
                           <div className="invoice__right mt-15 mt-sm-0 text-sm-end">
-                            <h3 className="text-uppercase font-70 mb-20">Invoice</h3>
+                            <h3 className="text-uppercase font-70 mb-20">Hóa Đơn</h3>
                           </div>
                         </div>
                       </div>
@@ -75,10 +79,10 @@ const SingleOrder = ({ params }) => {
                   <div className="col-md-6 col-sm-4">
                     <div className="invoice__details mt-md-0 mt-20 text-md-end">
                       <p className="mb-0">
-                        <strong>Invoice ID:</strong> #{invoice}
+                        <strong>Mã Hóa Đơn:</strong> #{invoice}
                       </p>
                       <p className="mb-0">
-                        <strong>Date:</strong> {dayjs(createdAt).format("MMMM D, YYYY")}
+                        <strong>Ngày:</strong> {dayjs(createdAt).format("DD [tháng] MM [năm] YYYY")}
                       </p>
                     </div>
                   </div>
@@ -88,11 +92,11 @@ const SingleOrder = ({ params }) => {
                 <table className="table">
                   <thead className="table-light">
                     <tr>
-                      <th scope="col">SL</th>
-                      <th scope="col">Product Name</th>
-                      <th scope="col">Quantity</th>
-                      <th scope="col">Item Price</th>
-                      <th scope="col">Amount</th>
+                      <th scope="col">STT</th>
+                      <th scope="col">Tên Sản Phẩm</th>
+                      <th scope="col">Số Lượng</th>
+                      <th scope="col">Giá Sản Phẩm</th>
+                      <th scope="col">Tổng</th>
                     </tr>
                   </thead>
                   <tbody className="table-group-divider">
@@ -101,8 +105,8 @@ const SingleOrder = ({ params }) => {
                         <td>{i + 1}</td>
                         <td>{item.title}</td>
                         <td>{item.orderQuantity}</td>
-                        <td>${item.price}</td>
-                        <td>${item.price * item.orderQuantity}</td>
+                        <td>VND{item.price}</td>
+                        <td>VND{item.price * item.orderQuantity}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -112,27 +116,27 @@ const SingleOrder = ({ params }) => {
                 <div className="row">
                   <div className="col-lg-3 col-md-4">
                     <div className="invoice__payment-method mb-30">
-                      <h5 className="mb-0">Payment Method</h5>
+                      <h5 className="mb-0">Phương Thức Thanh Toán</h5>
                       <p className="tp-font-medium text-uppercase">{paymentMethod}</p>
                     </div>
                   </div>
                   <div className="col-lg-3 col-md-4">
                     <div className="invoice__shippint-cost mb-30">
-                      <h5 className="mb-0">Shipping Cost</h5>
-                      <p className="tp-font-medium">${shippingCost}</p>
+                      <h5 className="mb-0">Chi Phí Vận Chuyển</h5>
+                      <p className="tp-font-medium">VND{shippingCost}</p>
                     </div>
                   </div>
                   <div className="col-lg-3 col-md-4">
                     <div className="invoice__discount-cost mb-30">
-                      <h5 className="mb-0">Discount</h5>
-                      <p className="tp-font-medium">${discount.toFixed(2)}</p>
+                      <h5 className="mb-0">Giảm Giá</h5>
+                      <p className="tp-font-medium">VND{discount.toFixed(2)}</p>
                     </div>
                   </div>
                   <div className="col-lg-3 col-md-4">
                     <div className="invoice__total-ammount mb-30">
-                      <h5 className="mb-0">Total Ammount</h5>
+                      <h5 className="mb-0">Tổng Số Tiền</h5>
                       <p className="tp-font-medium text-danger">
-                        <strong>${parseInt(totalAmount).toFixed(2)}</strong>
+                        <strong>VND{parseInt(totalAmount).toFixed(2)}</strong>
                       </p>
                     </div>
                   </div>
@@ -152,11 +156,11 @@ const SingleOrder = ({ params }) => {
                         <span className="mr-5">
                           <i className="fa-regular fa-print"></i>
                         </span>{" "}
-                        Print
+                        In
                       </button>
                     )}
                     content={() => printRef.current}
-                    documentTitle="Invoice"
+                    documentTitle="Hóa Đơn"
                   />
                 </div>
               </div>
@@ -164,17 +168,16 @@ const SingleOrder = ({ params }) => {
           </div>
         </section>
       </>
-
     );
   }
   return (
     <>
       <Wrapper>
-        <SEO pageTitle={"Order Details"} />
+        <SEO pageTitle={"Chi Tiết Đơn Hàng"} />
         <HeaderTwo style_2={true} />
-        {/* content */}
+        {/* nội dung */}
         {content}
-        {/* content */}
+        {/* nội dung */}
         {/* footer start */}
         <Footer primary_style={true} />
         {/* footer end */}

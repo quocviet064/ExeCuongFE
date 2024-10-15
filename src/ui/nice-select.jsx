@@ -16,7 +16,6 @@ const NiceSelect = ({options,defaultCurrent, placeholder,className,onChange,name
         onChange(item, name);
         onClose();
     };
-
     return (
         <div
             className={`nice-select ${ className, open && "open"}`}

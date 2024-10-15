@@ -1,11 +1,10 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-// internal
 import { Filter } from "@/svg";
 import NiceSelect from "@/ui/nice-select";
 import { handleFilterSidebarOpen } from "@/redux/features/shop-filter-slice";
 
-const ShopTopRight = ({ selectHandleFilter }) => {
+const TemplatesTopRight = ({ selectHandleFilter }) => {
   const dispatch = useDispatch();
   return (
     <div className="tp-shop-top-right d-sm-flex align-items-center justify-content-xl-end">
@@ -13,10 +12,10 @@ const ShopTopRight = ({ selectHandleFilter }) => {
         <NiceSelect
           options={[
             { value: "Sắp xếp mặc định", text: "Sắp xếp mặc định" },
-            { value: "Thấp đến cao", text: "Thấp đến cao" },
-            { value: "Cao đến thấp", text: "Cao đến thấp" },
-            { value: "Mới nhất", text: "Mới nhất" },
-            { value: "Đang giảm giá", text: "Đang giảm giá" },
+            { value: "Giá thấp đến cao", text: "Giá thấp đến cao" },
+            { value: "Giá cao đến thấp", text: "Giá cao đến thấp" },
+            { value: "Diện tích nhỏ đến lớn", text: "Diện tích nhỏ đến lớn" },
+            { value: "Diện tích lớn đến nhỏ", text: "Diện tích lớn đến nhỏ" },
           ]}
           defaultCurrent={0}
           onChange={selectHandleFilter}
@@ -25,14 +24,11 @@ const ShopTopRight = ({ selectHandleFilter }) => {
       </div>
       <div className="tp-shop-top-filter">
         <button onClick={() => dispatch(handleFilterSidebarOpen())} type="button" className="tp-filter-btn">
-          <span>
-            <Filter />
-          </span>
-          {" "}Lọc
+          <span><Filter /></span> Lọc
         </button>
       </div>
     </div>
   );
 };
 
-export default ShopTopRight;
+export default TemplatesTopRight;

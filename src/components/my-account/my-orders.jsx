@@ -17,7 +17,7 @@ const MyOrders = ({ orderData }) => {
                 style={{ fontSize: "30px" }}
                 className="fa-solid fa-cart-circle-xmark"
               ></i>
-              <p>You Have no order Yet!</p>
+              <p>Bạn chưa có đơn hàng nào!</p>
             </div>
           </div>
         ))}
@@ -25,10 +25,10 @@ const MyOrders = ({ orderData }) => {
         <table className="table">
           <thead>
             <tr>
-              <th scope="col">Order Id</th>
-              <th scope="col">Order Time</th>
-              <th scope="col">Status</th>
-              <th scope="col">View</th>
+              <th scope="col">Mã Đơn Hàng</th>
+              <th scope="col">Thời Gian Đặt Hàng</th>
+              <th scope="col">Trạng Thái</th>
+              <th scope="col">Xem</th>
             </tr>
           </thead>
           <tbody>
@@ -36,17 +36,17 @@ const MyOrders = ({ orderData }) => {
               <tr key={i}>
                 <th scope="row">#{item._id.substring(20, 25)}</th>
                 <td data-info="title">
-                  {dayjs(item.createdAt).format("MMMM D, YYYY")}
+                  {dayjs(item.createdAt).format(" Ngày DD, MMMM, YYYY")}
                 </td>
                 <td
-                  data-info={`status ${item.status === "Pending" ? "pending" : ""}  ${item.status === "Processing" ? "hold" : ""}  ${item.status === "Delivered" ? "done" : ""}`}
+                  data-info={`trạng thái ${item.status === "Pending" ? "đang chờ" : ""}  ${item.status === "Processing" ? "đang xử lý" : ""}  ${item.status === "Delivered" ? "đã giao" : ""}`}
                   className={`status ${item.status === "Pending" ? "pending" : ""} ${item.status === "Processing" ? "hold" : ""}  ${item.status === "Delivered" ? "done" : ""}`}
                 >
-                  {item.status}
+                  {item.status === "Pending" ? "Đang Chờ" : item.status === "Processing" ? "Đang Xử Lý" : "Đã Giao"}
                 </td>
                 <td>
                   <Link href={`/order/${item._id}`} className="tp-logout-btn">
-                    Invoice
+                    Hóa Đơn
                   </Link>
                 </td>
               </tr>

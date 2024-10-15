@@ -93,12 +93,27 @@ const menu_data = [
   },
   {
     id: 4,
+    templates: true,
+    title: 'Templates',
+    link: '/templates',
+    templates_pages: [
+      {
+        title: 'Template Details',
+        link: '/template-details',
+       
+      },
+   
+    ]
+  },
+
+  {
+    id: 5,
     single_link: true,
     title: 'Coupons',
     link: '/coupon',
   },
   {
-    id: 5,
+    id: 6,
     sub_menu: true,
     title: 'Blog',
     link: '/blog',
@@ -111,7 +126,7 @@ const menu_data = [
     ]
   },
   {
-    id: 6,
+    id: 7,
     single_link: true,
     title: 'Contact',
     link: '/contact',

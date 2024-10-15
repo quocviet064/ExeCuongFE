@@ -8,7 +8,7 @@ import shopFilterSlice from "./features/shop-filter-slice";
 import wishlistSlice from "./features/wishlist-slice";
 import couponSlice from "./features/coupon/couponSlice";
 import orderSlice from "./features/order/orderSlice";
-
+import filterSlice from "./features/template/filter-slice";
 const store = configureStore({
   reducer: {
     [apiSlice.reducerPath]: apiSlice.reducer,
@@ -20,6 +20,7 @@ const store = configureStore({
     compare:compareSlice,
     coupon:couponSlice,
     order:orderSlice,
+    filter: filterSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(apiSlice.middleware),

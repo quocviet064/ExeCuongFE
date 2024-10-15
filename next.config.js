@@ -4,11 +4,13 @@ const nextConfig = {
   images: {
     domains: [
       "i.ibb.co",
+      "ibb.co",  // Thêm dòng này
       "lh3.googleusercontent.com",
       "res.cloudinary.com",
       "lomonoxop.edu.vn",
       "example.com",
     ],
+   
   },
 };
 

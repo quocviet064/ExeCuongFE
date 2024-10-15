@@ -29,26 +29,42 @@ const ProfileNavTab = () => {
         role="tablist"
       >
         <SingleNav
-          active={true}
-          id="profile"
-          title="Profile"
-          icon="fa-regular fa-user-pen"
-        />
-        <SingleNav
+          active={true} // Đảm bảo tab này được đánh dấu là active
           id="information"
-          title="Information"
+          title="Thông tin cá nhân" // Tiêu đề đã được dịch sang tiếng Việt
           icon="fa-regular fa-circle-info"
         />
         <SingleNav
+          id="profile"
+          title="Đơn hàng" // Tiêu đề đã được dịch sang tiếng Việt
+          icon="fa-regular fa-user-pen"
+        />
+        <SingleNav
           id="order"
-          title="My Orders"
+          title="Đơn hàng của tôi" // Tiêu đề đã được dịch sang tiếng Việt
           icon="fa-light fa-clipboard-list-check"
         />
         <SingleNav
           id="password"
-          title="Change Password"
+          title="Đổi mật khẩu" // Tiêu đề đã được dịch sang tiếng Việt
           icon="fa-regular fa-lock"
         />
+        <SingleNav
+          id="points"
+          title="Điểm Tích Lũy" // Tiêu đề đã được dịch sang tiếng Việt
+          icon="fa-solid fa-star"
+        />
+        <SingleNav
+          id="vouchers"
+          title="Voucher" // Tiêu đề đã được dịch sang tiếng Việt
+          icon="fa-solid fa-tag"
+        />
+        {/* Thêm tab cho thông tin ngân hàng */}
+        {/* <SingleNav
+          id="bank"
+          title="Thông Tin Ngân Hàng"
+          icon="fa-solid fa-university"
+        /> */}
       </div>
     </nav>
   );

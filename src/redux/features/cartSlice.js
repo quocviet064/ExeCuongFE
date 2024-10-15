@@ -4,6 +4,7 @@ import { notifyError, notifySuccess } from "@/utils/toast";
 
 const initialState = {
   cart_products: [],
+  cart_templates: [], // Thêm dòng này
   orderQuantity: 1,
   cartMiniOpen:false,
 };

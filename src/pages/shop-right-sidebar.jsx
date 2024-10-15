@@ -16,7 +16,8 @@ const ShopRightSidebarPage = ({ query }) => {
   const [priceValue, setPriceValue] = useState([0, 0]);
   const [selectValue, setSelectValue] = useState("");
   const [currPage, setCurrPage] = useState(1);
-  // Load the maximum price once the products have been loaded
+
+  // Tải giá tối đa khi sản phẩm đã được tải
   useEffect(() => {
     if (!isLoading && !isError && products?.data?.length > 0) {
       const maxPrice = products.data.reduce((max, product) => {
@@ -26,18 +27,18 @@ const ShopRightSidebarPage = ({ query }) => {
     }
   }, [isLoading, isError, products]);
 
-  // handleChanges
+  // Xử lý thay đổi
   const handleChanges = (val) => {
-    setCurrPage(1)
+    setCurrPage(1);
     setPriceValue(val);
   };
 
-  // selectHandleFilter
-  const selectHandleFilter = e => {
-    setSelectValue(e.value)
-  }
+  // Xử lý chọn bộ lọc
+  const selectHandleFilter = (e) => {
+    setSelectValue(e.value);
+  };
 
-  // other props 
+  // Các props khác
   const otherProps = {
     priceFilterValues: {
       priceValue,
@@ -46,81 +47,78 @@ const ShopRightSidebarPage = ({ query }) => {
     selectHandleFilter,
     currPage,
     setCurrPage,
-  }
-  // decide what to render
+  };
+
+  // Quyết định nội dung hiển thị
   let content = null;
 
   if (isLoading) {
-    content = <ShopLoader loading={isLoading} shopRight={true}/>;
+    content = <ShopLoader loading={isLoading} shopRight={true} />;
   }
   if (!isLoading && isError) {
-    content = <ErrorMsg msg="There was an error" />;
+    content = <ErrorMsg msg="Có lỗi xảy ra" />;
   }
   if (!isLoading && !isError && products?.data?.length === 0) {
-    content = <ErrorMsg msg="No Products found!" />;
+    content = <ErrorMsg msg="Không tìm thấy sản phẩm!" />;
   }
   if (!isLoading && !isError && products?.data?.length > 0) {
-    // products
+    // sản phẩm
     let product_items = products.data;
-    // select short filtering 
+
+    // Lọc ngắn
     if (selectValue) {
-      if (selectValue === 'Default Sorting') {
-        product_items = products.data
-      }
-      else if (selectValue === 'Low to High') {
+      if (selectValue === "Sắp xếp mặc định") {
+        product_items = products.data;
+      } else if (selectValue === "Thấp đến cao") {
         product_items = products.data.slice().sort((a, b) => Number(a.price) - Number(b.price));
-      }
-      else if (selectValue === 'High to Low') {
+      } else if (selectValue === "Cao đến thấp") {
         product_items = products.data.slice().sort((a, b) => Number(b.price) - Number(a.price));
-      }
-      else if (selectValue === 'New Added') {
+      } else if (selectValue === "Mới nhất") {
         product_items = products.data.slice().sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-      }
-      else if (selectValue === 'On Sale') {
+      } else if (selectValue === "Đang giảm giá") {
         product_items = products.data.filter(p => p.discount > 0);
-      }
-      else {
-        product_items = products.data
+      } else {
+        product_items = products.data;
       }
     }
-    // price filter
+
+    // Lọc theo giá
     product_items = product_items.filter(
       (p) => p.price >= priceValue[0] && p.price <= priceValue[1]
     );
 
-    // status filter
+    // Lọc theo trạng thái
     if (query.status) {
-      if (query.status === 'on-sale') {
-        product_items = product_items.filter(p => p.discount > 0)
-      }
-      else if (query.status === 'in-stock') {
-        product_items = product_items.filter(p => p.status === 'in-stock')
+      if (query.status === "on-sale") {
+        product_items = product_items.filter(p => p.discount > 0);
+      } else if (query.status === "in-stock") {
+        product_items = product_items.filter(p => p.status === "in-stock");
       }
     }
 
-    // category filter
+    // Lọc theo danh mục
     if (query.category) {
       product_items = product_items.filter(
         (p) => p.parent.toLowerCase().replace("&", "").split(" ").join("-") === query.category
       );
     }
 
-    // color filter
+    // Lọc theo màu sắc
     if (query.color) {
       product_items = product_items.filter(product => {
         for (let i = 0; i < product.imageURLs.length; i++) {
           const color = product.imageURLs[i]?.color;
           if (color && color?.name.toLowerCase().replace("&", "").split(" ").join("-") === query.color) {
-            return true; // match found, include product in result
+            return true; // tìm thấy, bao gồm sản phẩm trong kết quả
           }
         }
-        return false; // no match found, exclude product from result
-      })
+        return false; // không tìm thấy, loại trừ sản phẩm khỏi kết quả
+      });
     }
 
-    // brand filter
+    // Lọc theo thương hiệu
     if (query.brand) {
-      product_items = product_items.filter(p => p.brand.name.toLowerCase().replace("&", "").split(" ").join("-") === query.brand)
+      product_items = product_items.filter(p => p.brand.name.toLowerCase().replace("&", "").split(" ").join("-") === query.brand);
     }
 
     content = (
@@ -139,11 +137,12 @@ const ShopRightSidebarPage = ({ query }) => {
       </>
     );
   }
+
   return (
     <Wrapper>
-      <SEO pageTitle="Shop" />
+      <SEO pageTitle="Cửa Hàng" />
       <HeaderTwo style_2={true} />
-      <ShopBreadcrumb title="Shop Right Sidebar" subtitle="Shop Right Sidebar" />
+      <ShopBreadcrumb title="Cửa Hàng Bên Phải" subtitle="Cửa Hàng Bên Phải" />
       {content}
       <Footer primary_style={true} />
     </Wrapper>

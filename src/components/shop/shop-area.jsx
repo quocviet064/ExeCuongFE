@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Pagination from "@/ui/Pagination";
 import ProductItem from "../products/fashion/product-item";
 import CategoryFilter from "./shop-filter/category-filter";
+import CategoryTreeFilter from "./shop-filter/category-tree-filter"; // Import CategoryTreeFilter
 import ColorFilter from "./shop-filter/color-filter";
 import PriceFilter from "./shop-filter/price-filter";
 import ProductBrand from "./shop-filter/product-brand";
@@ -13,7 +14,7 @@ import ShopTopRight from "./shop-top-right";
 import ResetButton from "./shop-filter/reset-button";
 
 const ShopArea = ({ all_products, products, otherProps }) => {
-  const {priceFilterValues,selectHandleFilter,currPage,setCurrPage} = otherProps;
+  const { priceFilterValues, selectHandleFilter, currPage, setCurrPage } = otherProps;
   const [filteredRows, setFilteredRows] = useState(products);
   const [pageStart, setPageStart] = useState(0);
   const [countOfPage, setCountOfPage] = useState(12);
@@ -28,6 +29,7 @@ const ShopArea = ({ all_products, products, otherProps }) => {
   const maxPrice = all_products.reduce((max, product) => {
     return product.price > max ? product.price : max;
   }, 0);
+  
   return (
     <>
       <section className="tp-shop-area pb-120">
@@ -44,14 +46,16 @@ const ShopArea = ({ all_products, products, otherProps }) => {
                 <StatusFilter setCurrPage={setCurrPage} />
                 {/* categories */}
                 <CategoryFilter setCurrPage={setCurrPage} />
+                {/* tree filter for categories */}
+                <CategoryTreeFilter setCurrPage={setCurrPage} /> Thêm bộ lọc cây
                 {/* color */}
-                <ColorFilter setCurrPage={setCurrPage} />
+                {/* <ColorFilter setCurrPage={setCurrPage} /> */}
                 {/* product rating */}
                 <TopRatedProducts />
                 {/* brand */}
-                <ProductBrand setCurrPage={setCurrPage} />
+                {/* <ProductBrand setCurrPage={setCurrPage} /> */}
                 {/* reset filter */}
-                <ResetButton/>
+                <ResetButton />
               </div>
             </div>
             <div className="col-xl-9 col-lg-8">
